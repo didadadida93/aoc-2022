@@ -1,7 +1,7 @@
 use aoc::day1;
+use aoc::day2;
 
 fn main() {
-    let (largest, top3) = day1::solve();
-    println!("{}", largest);
-    println!("{}", top3);
+    day1::solve();
+    day2::solve();
 }
