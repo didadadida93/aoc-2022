@@ -1,4 +1,5 @@
 use std::fs;
+use std::ops::ControlFlow;
 
 fn get_value_from_char(c: char) -> u32 {
     let d = c.to_digit(36).expect("Failed to convert char into digit") - 9;
@@ -6,13 +7,6 @@ fn get_value_from_char(c: char) -> u32 {
         d + 26
     } else {
         d
-    }
-}
-
-fn contains(w: &str, c: char) -> bool {
-    match w.find(c) {
-        Some(_) => true,
-        None => false,
     }
 }
 
@@ -24,19 +18,16 @@ pub fn solve() {
         .map(|item| {
             let left_side = &item[0..(item.len() / 2)];
             let right_side = &item[(item.len() / 2)..];
-            let mut iter = right_side.chars();
-            let mut v: Option<char> = None;
-            while let Some(c) = iter.next() {
-                if contains(left_side, c) {
-                    v = Some(c);
-                    break;
+            let cf = right_side.chars().try_for_each(|c| {
+                if left_side.contains(c) {
+                    return ControlFlow::Break(get_value_from_char(c));
                 }
+                ControlFlow::Continue(())
+            });
+            match cf {
+                ControlFlow::Break(v) => v,
+                _ => 0,
             }
-            let value = match v {
-                None => panic!("Unable to find match char"),
-                Some(v) => get_value_from_char(v),
-            };
-            value
         })
         .sum::<u32>();
 
@@ -71,19 +62,16 @@ pub fn solve() {
             let first_element = item.get(0).unwrap();
             let second_element = item.get(1).unwrap();
             let third_element = item.get(2).unwrap();
-            let mut iter = third_element.chars();
-            let mut v: Option<char> = None;
-            while let Some(c) = iter.next() {
-                if contains(first_element, c) && contains(second_element, c) {
-                    v = Some(c);
-                    break;
+            let cf = third_element.chars().try_for_each(|c| {
+                if first_element.contains(c) && second_element.contains(c) {
+                    return ControlFlow::Break(get_value_from_char(c));
                 }
+                ControlFlow::Continue(())
+            });
+            match cf {
+                ControlFlow::Break(v) => v,
+                _ => 0,
             }
-            let value = match v {
-                None => panic!("Unable to find match char"),
-                Some(v) => get_value_from_char(v),
-            };
-            value
         })
         .sum::<u32>();
     println!("---------------------------------");
