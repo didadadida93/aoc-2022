@@ -124,9 +124,7 @@ pub fn solve() {
                 .to_string()
                 .try_into()
                 .unwrap();
-            let me = split
-                .next()
-                .expect("Failed to get my Roshambo");
+            let me = split.next().expect("Failed to get my Roshambo");
             let me = get_my_roshambo(&opponent, me.to_string()).unwrap();
             me.against(&opponent) + me.get_value()
         })

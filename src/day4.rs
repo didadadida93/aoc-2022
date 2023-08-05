@@ -27,7 +27,8 @@ pub fn solve() {
         .expect("Failed to read day-4.txt file")
         .trim()
         .to_string();
-    let total = content.lines()
+    let total = content
+        .lines()
         .map(|item| {
             let mut iter = item.split(",");
             let left = iter.next().expect("Failed to get left side");
@@ -41,7 +42,8 @@ pub fn solve() {
             }
         })
         .sum::<u32>();
-    let another_total = content.lines()
+    let another_total = content
+        .lines()
         .map(|item| {
             let mut iter = item.split(",");
             let left = iter.next().expect("Failed to get left side");
